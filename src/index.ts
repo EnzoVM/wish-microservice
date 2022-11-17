@@ -19,7 +19,7 @@ app.get('/', (request: Request, response: Response) => {
   }).end()
 })
 
-app.use('/api/v1/favorites', favoriteRouter)
+app.use('/api/v1/wish', favoriteRouter)
 app.use(notFound)
 
 app.listen(app.get('PORT'), () => {
