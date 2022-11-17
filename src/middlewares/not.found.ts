@@ -1,4 +1,4 @@
-const notFound = (request, response, error, next) => {
+const notFound = (request, response, next) => {
   response.status(404).json({
     message: 'Resource not found'
   }).end()
