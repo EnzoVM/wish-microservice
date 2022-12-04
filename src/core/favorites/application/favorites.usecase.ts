@@ -9,6 +9,10 @@ export default class FavoriteUseCase {
   }
 
   async addFavoriteProduct (productId: string, userId: string) {
+    const response = await this.favoritesRepository.verifyWishProduct(userId, productId)
+    if(response){
+      throw new Error('El producto ya esta en favoritos')
+    }
     const newFavoriteProduct = new Favorites(productId, userId) 
     const favoriteProductAdded = await this.favoritesRepository.addFavoriteProduct(newFavoriteProduct)
     return favoriteProductAdded
@@ -16,6 +20,15 @@ export default class FavoriteUseCase {
 
   async getFavoritesProducts (userId: string) {
     const getListFavoriteProducts = await this.favoritesRepository.getFavoriteProducts(userId)
-    return getListFavoriteProducts
+    const wishProduct = getListFavoriteProducts.map(async wishProducts => {
+      const product = await this.favoritesRepository.getProductById(wishProducts.productId)
+      return {...product, wishId: wishProducts.wishId}
+    })
+    return await Promise.all(wishProduct)
+  }
+
+  async deleteWishProduct (wishId: string) {
+    const wishProductDelete = await this.favoritesRepository.deleteWishProduct(wishId)
+    return wishProductDelete
   }
 }

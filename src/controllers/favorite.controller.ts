@@ -15,12 +15,12 @@ export const addFavoriteProduct = async (request: Request, response: Response) =
       message: 'El producto ha sido agregado con exito a la lista de favoritos',
       data: newFavoriteProduct
     })  
-  } catch (error) {
+  } catch (error:any) {
     console.log(error)
         
     response.status(404).json({
       status: 'fail',
-      message: 'El producto no ha sido agregado a la lista de favoritos',
+      message: error.message,
       data: {}
     })
   } 
@@ -43,6 +43,28 @@ export const getFavoriteProduct = async (request: Request, response: Response) =
     response.status(404).json({
       status: 'fail',
       message: 'No se encuentra el listado de productos favoritos',
+      data: {}
+    })
+  } 
+}
+
+export const deleteWishProduct = async (request: Request, response: Response) => {
+  const wishId = request.params.wishId
+
+  try {
+    const favoriteProductsDeleted = await favoriteUseCase.deleteWishProduct(wishId)
+        
+    response.status(200).json({
+      status: 'OK',
+      message: 'El producto se ha eliminado del listado de favoritos ',
+      data: favoriteProductsDeleted
+    })  
+  } catch (error) {
+    console.log(error)
+        
+    response.status(404).json({
+      status: 'fail',
+      message: 'El producto no se ha eliminado del listado',
       data: {}
     })
   } 
