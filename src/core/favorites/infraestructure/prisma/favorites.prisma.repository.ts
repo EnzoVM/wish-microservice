@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient, Product } from '@prisma/client'
 import Favorites from '../../domain/favorites.model'
 import FavoritesRepository from '../../domain/favorites.repository'
 
@@ -18,11 +18,20 @@ export default class FavoritesPrismaRepository implements FavoritesRepository {
   }
 
   async getFavoriteProducts (userId: string) {
-    const getListFavoriteProducts = await prisma.wish.findMany({
+    const getListWishProducts = await prisma.wish.findMany({
       where:{
         userId,
       }
     })
-    return getListFavoriteProducts
+    
+    getListWishProducts.map(async wishProducts => {
+      const products = await prisma.product.findMany({
+        where:{
+          productId: wishProducts.productId
+        }
+      })
+    })
+
+    return getListWishProducts
   }
 } 

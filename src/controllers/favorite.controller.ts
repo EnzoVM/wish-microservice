@@ -25,3 +25,25 @@ export const addFavoriteProduct = async (request: Request, response: Response) =
     })
   } 
 }
+
+export const getFavoriteProduct = async (request: Request, response: Response) => {
+  const userId = request.params.userId
+
+  try {
+    const favoriteProductsFound = await favoriteUseCase.getFavoritesProducts(userId)
+        
+    response.status(200).json({
+      status: 'OK',
+      message: 'Listado de productos favoritos ',
+      data: favoriteProductsFound
+    })  
+  } catch (error) {
+    console.log(error)
+        
+    response.status(404).json({
+      status: 'fail',
+      message: 'No se encuentra el listado de productos favoritos',
+      data: {}
+    })
+  } 
+}
