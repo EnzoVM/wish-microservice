@@ -1,6 +1,5 @@
-import { PrismaClient, Product } from '@prisma/client'
+import { PrismaClient } from '@prisma/client'
 import axios from 'axios'
-import IProduct from '../../../product/product.interface'
 import Favorites from '../../domain/favorites.model'
 import FavoritesRepository from '../../domain/favorites.repository'
 
