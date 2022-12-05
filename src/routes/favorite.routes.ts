@@ -5,6 +5,6 @@ const favoriteRouter = Router()
 
 favoriteRouter.post('/create', addFavoriteProduct)
 favoriteRouter.get('/list/:userId', getFavoriteProduct)
-favoriteRouter.delete('/delete/wish/:wishId', deleteWishProduct)
+favoriteRouter.delete('/delete/:wishId', deleteWishProduct)
 
 export default favoriteRouter
